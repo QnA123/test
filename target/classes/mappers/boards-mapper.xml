@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	findAllboards
+	게시판 페이징
+ -->
+
+<mapper namespace="Boards">
+    
+	<select id="findAllBoards" parameterType="map" resultType="boards">
+		<![CDATA[
+	    	SELECT 
+			b.id, 
+			b.title, 
+			b.hit, 
+			b.created_at, 
+			u.name AS user_name
+			FROM boards AS b
+			INNER JOIN users AS u 
+			ON u.id = b.users_id
+			WHERE category = 'General'
+			LIMIT #{scale} OFFSET #{pNum};
+		]]>
+	</select>
+	
+	<select id="findBoardsCount" resultType="int">
+		<![CDATA[
+	    	SELECT COUNT(*) FROM boards;
+		]]>
+	</select>
+	
+</mapper>
+
+
+
